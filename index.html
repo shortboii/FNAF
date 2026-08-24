@@ -13,7 +13,7 @@
         }
 
         body {
-            background: #050508;
+            background: #000;
             color: #fff;
             font-family: 'Courier New', monospace;
             overflow: hidden;
@@ -25,7 +25,7 @@
             position: relative;
             width: 100vw;
             height: 100vh;
-            background: #101018;
+            background: #000;
         }
 
         canvas {
@@ -34,121 +34,243 @@
             height: 100%;
         }
 
-        /* HUD Overlay */
+        /* CRT HUD Overlay */
         .hud-panel {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 15px 20px;
-            border: 2px solid #00ffff;
-            border-radius: 6px;
+            top: 20px;
+            left: 20px;
+            background: rgba(8, 12, 10, 0.9);
+            padding: 15px 22px;
+            border: 2px solid #00ffaa;
+            border-radius: 4px;
             pointer-events: none;
             z-index: 10;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 170, 0.25), inset 0 0 10px rgba(0, 255, 170, 0.15);
         }
 
         .hud-text {
-            font-size: 18px;
-            color: #00ffff;
-            text-shadow: 0 0 5px #00ffff;
-            margin-bottom: 6px;
+            font-size: 15px;
+            color: #00ffaa;
+            text-shadow: 0 0 8px #00ffaa;
+            margin-bottom: 5px;
             font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .hud-text:last-child {
             margin-bottom: 0;
         }
 
-        /* Office Controls Buttons */
-        .btn {
+        /* Door & Light Desk Controls */
+        .btn-group-left {
             position: absolute;
-            padding: 14px 22px;
+            bottom: 70px;
+            left: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .btn-group-right {
+            position: absolute;
+            bottom: 70px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 12px 18px;
             font-weight: bold;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 12px;
             border: 2px solid;
             cursor: pointer;
             text-transform: uppercase;
             border-radius: 4px;
-            z-index: 10;
-            transition: background 0.1s, transform 0.05s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
         }
 
-        #btn-shutter {
-            bottom: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #331010;
-            color: #ff3333;
-            border-color: #ff3333;
+        .btn-door {
+            background: #2a0808;
+            color: #ff3344;
+            border-color: #ff3344;
+            box-shadow: 0 0 10px rgba(255, 51, 68, 0.3);
         }
 
-        #btn-flash {
-            bottom: 110px;
-            right: 40px;
-            background: #333010;
-            color: #ffff33;
-            border-color: #ffff33;
-        }
-
-        #btn-vent {
-            bottom: 110px;
-            left: 40px;
-            background: #102033;
-            color: #33ffff;
-            border-color: #33ffff;
-        }
-
-        #btn-monitor {
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 220px;
-            background: #103310;
-            color: #33ff33;
-            border-color: #33ff33;
-            text-align: center;
-        }
-
-        .btn:active, .btn.active {
-            filter: brightness(1.6);
-        }
-
-        #btn-shutter.active {
-            transform: translateX(-50%) scale(0.96);
-            background: #ff3333;
+        .btn-door.active {
+            background: #ff3344;
             color: #000;
         }
 
-        #btn-vent.active {
+        .btn-light {
+            background: #2a2408;
+            color: #ffdd33;
+            border-color: #ffdd33;
+            box-shadow: 0 0 10px rgba(255, 221, 51, 0.3);
+        }
+
+        .btn-light.active {
+            background: #ffdd33;
+            color: #000;
+        }
+
+        .btn:active {
+            filter: brightness(1.8);
             transform: scale(0.96);
-            background: #33ffff;
-            color: #000;
         }
 
-        /* Security Monitor Interface */
+        /* Drag-Down Monitor Bar */
+        #monitor-flip-bar {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 480px;
+            height: 45px;
+            background: rgba(0, 255, 102, 0.15);
+            border: 2px solid #00ff66;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            z-index: 15;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff66;
+            font-weight: bold;
+            letter-spacing: 2px;
+            box-shadow: 0 -4px 15px rgba(0, 255, 102, 0.3);
+            transition: background 0.2s, height 0.15s;
+        }
+
+        #monitor-flip-bar:hover {
+            background: rgba(0, 255, 102, 0.35);
+            height: 52px;
+        }
+
+        /* Monitor Overlay */
         #monitor-overlay {
-            display: none;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 15, 5, 0.96);
+            background: rgba(3, 10, 5, 0.97);
             z-index: 20;
-            border: 12px solid #1a1a1a;
+            border: 16px solid #111;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #monitor-overlay.open {
+            transform: translateY(0%);
+        }
+
+        /* Monitor Navigation Tabs */
+        .monitor-nav {
+            display: flex;
+            background: #05140a;
+            border-bottom: 2px solid #00ff66;
+            padding: 10px 20px;
+            gap: 15px;
+        }
+
+        .nav-tab {
+            background: #082412;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: #00ff66;
+            color: #000;
+            box-shadow: 0 0 10px #00ff66;
+        }
+
+        /* Monitor Views */
+        .monitor-view {
+            display: none;
+            flex: 1;
+            position: relative;
+            padding: 20px;
+        }
+
+        .monitor-view.active {
+            display: block;
         }
 
         #cam-title {
             position: absolute;
-            top: 25px;
-            right: 25px;
-            color: #33ff33;
-            font-size: 24px;
+            top: 20px;
+            right: 30px;
+            color: #00ff66;
+            font-size: 22px;
             font-weight: bold;
-            text-shadow: 0 0 8px #33ff33;
+            text-shadow: 0 0 10px #00ff66;
+        }
+
+        /* Music Box Controls on CAM 04 */
+        #music-box-container {
+            position: absolute;
+            top: 70px;
+            left: 40px;
+            background: rgba(8, 24, 14, 0.9);
+            border: 2px solid #ffcc00;
+            padding: 20px;
+            border-radius: 6px;
+            width: 300px;
+            display: none;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+        }
+
+        .music-box-bar-bg {
+            width: 100%;
+            height: 24px;
+            background: #222;
+            border: 1px solid #ffcc00;
+            margin: 12px 0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        #music-box-fill {
+            width: 100%;
+            height: 100%;
+            background: #ffcc00;
+            box-shadow: 0 0 10px #ffcc00;
+            transition: width 0.1s linear;
+        }
+
+        #btn-wind-box {
+            background: #332800;
+            color: #ffcc00;
+            border: 2px solid #ffcc00;
+            padding: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        #btn-wind-box:active {
+            background: #ffcc00;
+            color: #000;
         }
 
         .cam-grid {
@@ -157,14 +279,14 @@
             gap: 10px;
             position: absolute;
             bottom: 25px;
-            right: 25px;
-            width: 420px;
+            right: 30px;
+            width: 440px;
         }
 
         .cam-btn {
-            background: #0a1a0a;
-            color: #33ff33;
-            border: 1px solid #33ff33;
+            background: #08180d;
+            color: #00ff66;
+            border: 1px solid #00ff66;
             padding: 12px;
             font-family: 'Courier New', monospace;
             font-size: 13px;
@@ -172,74 +294,113 @@
             cursor: pointer;
             text-align: center;
             border-radius: 3px;
+            transition: background 0.15s;
         }
 
         .cam-btn:hover {
-            background: #153315;
+            background: #12381e;
         }
 
         .cam-btn.active {
-            background: #33ff33;
+            background: #00ff66;
             color: #000;
+            box-shadow: 0 0 10px #00ff66;
         }
 
-        /* Air Duct Control Panel */
-        #duct-panel {
-            position: absolute;
-            top: 25px;
-            left: 25px;
-            width: 320px;
-            height: 290px;
-            background: rgba(0, 25, 0, 0.85);
-            border: 2px solid #33ff33;
-            border-radius: 6px;
-            padding: 12px;
-            box-shadow: 0 0 15px rgba(51, 255, 51, 0.15);
+        /* Maintenance Duct View */
+        #view-maint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .duct-header {
-            color: #33ff33;
-            border-bottom: 1px solid #33ff33;
-            padding-bottom: 6px;
+        .maint-title {
+            color: #00ff66;
+            font-size: 20px;
             font-weight: bold;
-            font-size: 14px;
-            text-align: center;
+            text-shadow: 0 0 8px #00ff66;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
-        #duct-map-draw {
-            height: 150px;
-            margin: 12px 0;
-            border: 1px dashed #33ff33;
+        .duct-diagram-container {
+            width: 750px;
+            height: 400px;
+            border: 2px solid #00ff66;
+            background: rgba(0, 15, 6, 0.85);
             position: relative;
-            background: rgba(0, 10, 0, 0.5);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
+            padding: 20px;
         }
 
-        .duct-label {
+        .duct-node {
             position: absolute;
-            color: #33ff33;
-            font-size: 11px;
+            background: #082412;
+            border: 2px solid #00ff66;
+            color: #00ff66;
+            padding: 12px 18px;
             font-weight: bold;
+            font-size: 13px;
+            border-radius: 6px;
         }
 
-        .duct-gate-btn {
-            background: #003300;
-            color: #33ff33;
-            border: 1px solid #33ff33;
+        .duct-path-line {
+            position: absolute;
+            background: #00ff66;
+            box-shadow: 0 0 8px #00ff66;
+        }
+
+        .seal-control-box {
+            position: absolute;
+            background: rgba(10, 35, 18, 0.9);
+            border: 1px dashed #00ff66;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            width: 170px;
+        }
+
+        .seal-btn {
+            background: #1a0808;
+            color: #ff4444;
+            border: 1px solid #ff4444;
             padding: 8px;
-            margin-top: 6px;
+            margin-top: 8px;
             cursor: pointer;
             width: 100%;
             font-family: 'Courier New', monospace;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
             border-radius: 3px;
+            transition: all 0.15s;
         }
 
-        .duct-gate-btn:hover {
-            background: #005500;
+        .seal-btn.sealed {
+            background: #00ff66;
+            color: #000;
+            border-color: #00ff66;
+            box-shadow: 0 0 10px #00ff66;
         }
 
-        /* Noise & Hallucination Overlays */
+        .threat-indicator {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #ff0055;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #ff0055;
+            animation: pulse 0.8s infinite alternate;
+            display: none;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(0.9); opacity: 0.7; }
+            to { transform: scale(1.3); opacity: 1; }
+        }
+
+        /* CRT Filter overlay */
         #static-canvas {
             position: absolute;
             top: 0;
@@ -247,27 +408,8 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.15;
+            opacity: 0.12;
             z-index: 30;
-        }
-
-        #shadow-junior {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            color: #fff;
-            z-index: 25;
-            text-align: center;
-            line-height: 100vh;
-            font-size: 72px;
-            font-weight: bold;
-            font-family: sans-serif;
-            letter-spacing: 12px;
-            text-shadow: 0 0 20px #fff;
         }
     </style>
 </head>
@@ -277,54 +419,102 @@
     <canvas id="viewboard"></canvas>
     <canvas id="static-canvas"></canvas>
 
-    <!-- Heads Up Display -->
+    <!-- CRT HUD Interface -->
     <div class="hud-panel">
         <div class="hud-text" id="hud-clock">TIME: 12 AM</div>
         <div class="hud-text" id="hud-power">POWER: 100.0%</div>
         <div class="hud-text" id="hud-usage">USAGE: LOW</div>
     </div>
 
-    <!-- Interactive Office Controls -->
-    <button class="btn" id="btn-vent">HOLD VENT SEAL</button>
-    <button class="btn" id="btn-shutter">TOGGLE SHUTTER</button>
-    <button class="btn" id="btn-flash">FLASH BEACON</button>
-    <button class="btn" id="btn-monitor">TOGGLE MONITOR</button>
-
-    <!-- Monitor Subsystem Interface -->
-    <div id="monitor-overlay">
-        <div id="cam-title">CAM 01: ARCADE FLOOR</div>
-        
-        <!-- Overhead Air Duct Control Panel -->
-        <div id="duct-panel">
-            <div class="duct-header">AIR DUCT RADAR & GATES</div>
-            <div id="duct-map-draw">
-                <div class="duct-label" style="top: 15px; left: 15px;">DUCT A</div>
-                <div class="duct-label" style="top: 65px; left: 110px;">DUCT B</div>
-                <div class="duct-label" style="top: 115px; left: 205px;">DUCT C</div>
-            </div>
-            <button class="duct-gate-btn" id="gate-1-toggle">GATE 1: NORMAL</button>
-            <button class="duct-gate-btn" id="gate-2-toggle">GATE 2: NORMAL</button>
-        </div>
-
-        <!-- Camera Switcher Grid -->
-        <div class="cam-grid">
-            <button class="cam-btn active" onclick="switchCam('CAM01', 'CAM 01: Arcade Floor')">CAM 01</button>
-            <button class="cam-btn" onclick="switchCam('CAM02', 'CAM 02: Party Rooms')">CAM 02</button>
-            <button class="cam-btn" onclick="switchCam('CAM03', 'CAM 03: Bowling Lanes')">CAM 03</button>
-            <button class="cam-btn" onclick="switchCam('CAM04', 'CAM 04: Prize Counter')">CAM 04</button>
-            <button class="cam-btn" onclick="switchCam('CAM05', 'CAM 05: Ball Pit Area')">CAM 05</button>
-            <button class="cam-btn" onclick="switchCam('CAM06', 'CAM 06: Backstage Closet')">CAM 06</button>
-            <button class="cam-btn" onclick="switchCam('CAM07', 'CAM 07: Storage Room')">CAM 07</button>
-            <button class="cam-btn" onclick="switchCam('CAM08', 'CAM 08: Duct Main Entry')">CAM 08</button>
-        </div>
+    <!-- Desk Controls: Left Door & Light -->
+    <div class="btn-group-left">
+        <button class="btn btn-door" id="btn-left-door">LEFT DOOR</button>
+        <button class="btn btn-light" id="btn-left-light">LEFT LIGHT</button>
     </div>
 
-    <!-- Hallucination Screen Overlay -->
-    <div id="shadow-junior">J U N I O R</div>
+    <!-- Desk Controls: Right Door & Light -->
+    <div class="btn-group-right">
+        <button class="btn btn-light" id="btn-right-light">RIGHT LIGHT</button>
+        <button class="btn btn-door" id="btn-right-door">RIGHT DOOR</button>
+    </div>
+
+    <!-- Pull-Up / Drag Down Camera Monitor Bar -->
+    <div id="monitor-flip-bar" onclick="toggleMonitor()">
+        ▼ SECURITY & MAINTENANCE SYSTEM ▼
+    </div>
+
+    <!-- Monitor Full Overlay -->
+    <div id="monitor-overlay">
+        <!-- Navigation Tabs -->
+        <div class="monitor-nav">
+            <button class="nav-tab active" id="tab-btn-cams" onclick="switchMonitorTab('cams')">CAMERA SYSTEM</button>
+            <button class="nav-tab" id="tab-btn-maint" onclick="switchMonitorTab('maint')">DUCT MAINTENANCE</button>
+        </div>
+
+        <!-- CAMERA SYSTEM VIEW -->
+        <div id="view-cams" class="monitor-view active">
+            <div id="cam-title">CAM 01: ARCADE FLOOR</div>
+
+            <!-- Music Box Controls on CAM 04 -->
+            <div id="music-box-container">
+                <div style="color:#ffcc00; font-weight:bold; font-size:13px;">VESPER'S MUSIC BOX</div>
+                <div class="music-box-bar-bg">
+                    <div id="music-box-fill"></div>
+                </div>
+                <button id="btn-wind-box" onmousedown="startWinding()" onmouseup="stopWinding()" onmouseleave="stopWinding()">HOLD TO WIND MUSIC BOX</button>
+            </div>
+
+            <div class="cam-grid">
+                <button class="cam-btn active" onclick="switchCam('CAM01', 'CAM 01: Arcade Floor')">CAM 01</button>
+                <button class="cam-btn" onclick="switchCam('CAM02', 'CAM 02: Party Rooms')">CAM 02</button>
+                <button class="cam-btn" onclick="switchCam('CAM03', 'CAM 03: Bowling Lanes')">CAM 03</button>
+                <button class="cam-btn" onclick="switchCam('CAM04', 'CAM 04: Prize Counter')">CAM 04</button>
+                <button class="cam-btn" onclick="switchCam('CAM05', 'CAM 05: Ball Pit Area')">CAM 05</button>
+                <button class="cam-btn" onclick="switchCam('CAM06', 'CAM 06: Backstage Closet')">CAM 06</button>
+                <button class="cam-btn" onclick="switchCam('CAM07', 'CAM 07: Storage Room')">CAM 07</button>
+                <button class="cam-btn" onclick="switchCam('CAM08', 'CAM 08: Main Duct Entrance')">CAM 08</button>
+            </div>
+        </div>
+
+        <!-- DUCT MAINTENANCE VIEW -->
+        <div id="view-maint" class="monitor-view">
+            <div class="maint-title">VENT / DUCT NETWORK & SEAL CONTROLS</div>
+            <div class="duct-diagram-container">
+                <div class="duct-node" style="top: 30px; left: 40px;">CAM 08 (DUCT ENTRANCE)</div>
+
+                <div class="duct-path-line" style="top: 50px; left: 240px; width: 80px; height: 3px;"></div>
+                
+                <div class="seal-control-box" style="top: 20px; left: 320px;">
+                    <div style="color:#00ff66; font-weight:bold; font-size:12px;">DUCT SECTOR A</div>
+                    <button class="seal-btn" id="seal-a-btn" onclick="toggleDuctSeal('A')">SEAL DUCT A</button>
+                </div>
+
+                <div class="duct-path-line" style="top: 50px; left: 490px; width: 60px; height: 3px;"></div>
+
+                <div class="seal-control-box" style="top: 20px; left: 550px;">
+                    <div style="color:#00ff66; font-weight:bold; font-size:12px;">DUCT SECTOR B</div>
+                    <button class="seal-btn" id="seal-b-btn" onclick="toggleDuctSeal('B')">SEAL DUCT B</button>
+                </div>
+
+                <div class="duct-path-line" style="top: 85px; left: 635px; width: 3px; height: 140px;"></div>
+
+                <div class="seal-control-box" style="top: 225px; left: 550px;">
+                    <div style="color:#00ff66; font-weight:bold; font-size:12px;">DUCT SECTOR C</div>
+                    <button class="seal-btn" id="seal-c-btn" onclick="toggleDuctSeal('C')">SEAL DUCT C</button>
+                </div>
+
+                <div class="duct-path-line" style="top: 255px; left: 300px; width: 250px; height: 3px;"></div>
+
+                <div class="duct-node" style="top: 235px; left: 130px; border-color:#ffcc00; color:#ffcc00;">FRONT CENTER VENT</div>
+
+                <div class="threat-indicator" id="radar-jolly"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-    // Audio Context Synthesizer for Audio Feedback
+    // Audio Synthesizer
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playBeep(freq, type, duration) {
         if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -332,7 +522,7 @@
         const gain = audioCtx.createGain();
         osc.type = type;
         osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -340,32 +530,36 @@
         osc.stop(audioCtx.currentTime + duration);
     }
 
-    // Game Logic State Core
+    // Game Logic State
     const state = {
         power: 100.0,
-        time: 0, // 0 to 360 seconds (6 minutes total)
-        shutterClosed: false,
-        ventSealHeld: false,
-        ventHoldTimer: 0,
-        flashActive: false,
+        time: 0,
+        leftDoor: false,
+        rightDoor: false,
+        leftLight: false,
+        rightLight: false,
+        musicBox: 100.0,
+        isWinding: false,
         monitorActive: false,
         currentCam: 'CAM01',
-        gate1Diverted: false,
-        gate2Diverted: false,
+        activeMonitorTab: 'cams',
+        sealedDucts: { A: false, B: false, C: false },
         blackout: false,
-        gameOver: false,
-        shadowActive: false,
-        shadowTimer: 0
+        gameOver: false
     };
 
-    // Animatronic AI Tracker
+    // Animatronics Config:
+    // Junior = Bonnie role (Attacks from Right Door)
+    // Clara = Chica role (Attacks from Left Door)
+    // Jolly = Vent/Duct crawler (Attacks from Front Vent)
+    // Vesper = Puppet-like porcelain doll (Music Box in CAM 04)
     const animatronics = {
         junior: { loc: 'CAM06', timer: 0, killTimer: 0 },
-        jolly: { loc: 'CAM06', timer: 0, killTimer: 0 },
-        jingle: { loc: 'CAM07', timer: 0, killTimer: 0 }
+        clara: { loc: 'CAM06', timer: 0, killTimer: 0 },
+        jolly: { loc: 'CAM07', timer: 0, killTimer: 0 },
+        vesper: { escaped: false, killTimer: 0 }
     };
 
-    // Render Canvas Elements
     const canvas = document.getElementById('viewboard');
     const ctx = canvas.getContext('2d');
     const staticCanvas = document.getElementById('static-canvas');
@@ -380,94 +574,108 @@
     window.addEventListener('resize', resize);
     resize();
 
-    // Controls DOM Binding
-    const btnShutter = document.getElementById('btn-shutter');
-    const btnFlash = document.getElementById('btn-flash');
-    const btnVent = document.getElementById('btn-vent');
-    const btnMonitor = document.getElementById('btn-monitor');
+    // DOM Elements
+    const btnLeftDoor = document.getElementById('btn-left-door');
+    const btnLeftLight = document.getElementById('btn-left-light');
+    const btnRightDoor = document.getElementById('btn-right-door');
+    const btnRightLight = document.getElementById('btn-right-light');
     const monitorOverlay = document.getElementById('monitor-overlay');
-    const gate1Btn = document.getElementById('gate-1-toggle');
-    const gate2Btn = document.getElementById('gate-2-toggle');
-    const shadowOverlay = document.getElementById('shadow-junior');
+    const monitorFlipBar = document.getElementById('monitor-flip-bar');
+    const musicBoxContainer = document.getElementById('music-box-container');
+    const musicBoxFill = document.getElementById('music-box-fill');
+    const radarJolly = document.getElementById('radar-jolly');
 
-    btnShutter.onclick = () => {
+    // Controls Logic
+    btnLeftDoor.onclick = () => {
         if (state.blackout) return;
-        state.shutterClosed = !state.shutterClosed;
-        btnShutter.classList.toggle('active', state.shutterClosed);
-        playBeep(state.shutterClosed ? 150 : 300, 'square', 0.2);
+        state.leftDoor = !state.leftDoor;
+        btnLeftDoor.classList.toggle('active', state.leftDoor);
+        playBeep(state.leftDoor ? 120 : 280, 'square', 0.15);
     };
 
-    btnFlash.onclick = () => {
+    btnRightDoor.onclick = () => {
         if (state.blackout) return;
-        state.power = Math.max(0, state.power - 1.5);
-        state.flashActive = true;
-        playBeep(800, 'sine', 0.1);
-        setTimeout(() => state.flashActive = false, 150);
-
-        // Flash behavior against Junior at Right Door
-        if (animatronics.junior.loc === 'OFFICE_RIGHT') {
-            animatronics.junior.loc = 'CAM01';
-            animatronics.junior.killTimer = 0;
-            playBeep(100, 'sawtooth', 0.4);
-        }
+        state.rightDoor = !state.rightDoor;
+        btnRightDoor.classList.toggle('active', state.rightDoor);
+        playBeep(state.rightDoor ? 120 : 280, 'square', 0.15);
     };
 
-    btnVent.onmousedown = () => {
-        if (!state.blackout) state.ventSealHeld = true;
-        btnVent.classList.add('active');
-    };
-    btnVent.onmouseup = () => {
-        state.ventSealHeld = false;
-        btnVent.classList.remove('active');
-    };
-    btnVent.onmouseleave = () => {
-        state.ventSealHeld = false;
-        btnVent.classList.remove('active');
-    };
+    btnLeftLight.onmousedown = () => { if (!state.blackout) state.leftLight = true; };
+    btnLeftLight.onmouseup = () => { state.leftLight = false; };
+    btnLeftLight.onmouseleave = () => { state.leftLight = false; };
 
-    btnMonitor.onclick = () => {
+    btnRightLight.onmousedown = () => { if (!state.blackout) state.rightLight = true; };
+    btnRightLight.onmouseup = () => { state.rightLight = false; };
+    btnRightLight.onmouseleave = () => { state.rightLight = false; };
+
+    function toggleMonitor() {
         if (state.blackout) return;
         state.monitorActive = !state.monitorActive;
-        monitorOverlay.style.display = state.monitorActive ? 'block' : 'none';
-        btnMonitor.classList.toggle('active', state.monitorActive);
-        playBeep(state.monitorActive ? 600 : 400, 'triangle', 0.15);
-    };
+        monitorOverlay.classList.toggle('open', state.monitorActive);
+        monitorFlipBar.innerText = state.monitorActive ? '▲ CLOSE MONITOR ▲' : '▼ SECURITY & MAINTENANCE SYSTEM ▼';
+        playBeep(state.monitorActive ? 550 : 380, 'triangle', 0.15);
+    }
 
-    gate1Btn.onclick = () => {
-        state.gate1Diverted = !state.gate1Diverted;
-        gate1Btn.innerText = `GATE 1: ${state.gate1Diverted ? 'DIVERTED' : 'NORMAL'}`;
-        playBeep(120, 'sawtooth', 0.25);
-    };
+    function switchMonitorTab(tabName) {
+        state.activeMonitorTab = tabName;
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.monitor-view').forEach(v => v.classList.remove('active'));
 
-    gate2Btn.onclick = () => {
-        state.gate2Diverted = !state.gate2Diverted;
-        gate2Btn.innerText = `GATE 2: ${state.gate2Diverted ? 'DIVERTED' : 'NORMAL'}`;
-        playBeep(120, 'sawtooth', 0.25);
-    };
+        document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+        document.getElementById(`view-${tabName}`).classList.add('active');
+        playBeep(450, 'sine', 0.08);
+    }
+
+    function toggleDuctSeal(sector) {
+        if (state.blackout) return;
+        if (!state.sealedDucts[sector]) {
+            state.sealedDucts.A = false;
+            state.sealedDucts.B = false;
+            state.sealedDucts.C = false;
+            state.sealedDucts[sector] = true;
+        } else {
+            state.sealedDucts[sector] = false;
+        }
+
+        ['A', 'B', 'C'].forEach(s => {
+            const btn = document.getElementById(`seal-${s.toLowerCase()}-btn`);
+            if (state.sealedDucts[s]) {
+                btn.classList.add('sealed');
+                btn.innerText = `SEAL DUCT ${s} [ACTIVE]`;
+            } else {
+                btn.classList.remove('sealed');
+                btn.innerText = `SEAL DUCT ${s}`;
+            }
+        });
+        playBeep(180, 'square', 0.2);
+    }
 
     window.switchCam = (camID, title) => {
         state.currentCam = camID;
         document.getElementById('cam-title').innerText = title;
         document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
         if (event && event.target) event.target.classList.add('active');
-        playBeep(500, 'sine', 0.05);
+
+        // Toggle Music Box UI on CAM 04
+        musicBoxContainer.style.display = (camID === 'CAM04') ? 'block' : 'none';
+        playBeep(480, 'sine', 0.05);
     };
 
-    // Static Noise Rendering
+    function startWinding() { state.isWinding = true; }
+    function stopWinding() { state.isWinding = false; }
+
     function renderStatic() {
         const imgData = sCtx.createImageData(staticCanvas.width, staticCanvas.height);
-        const numPixels = imgData.data.length / 4;
-        for (let i = 0; i < numPixels; i++) {
+        for (let i = 0; i < imgData.data.length; i += 4) {
             const val = Math.random() * 255;
-            imgData.data[i * 4] = val;
-            imgData.data[i * 4 + 1] = val;
-            imgData.data[i * 4 + 2] = val;
-            imgData.data[i * 4 + 3] = 35; // Alpha
+            imgData.data[i] = val;
+            imgData.data[i + 1] = val;
+            imgData.data[i + 2] = val;
+            imgData.data[i + 3] = 25;
         }
         sCtx.putImageData(imgData, 0, 0);
     }
 
-    // Engine Loop Initialization
     let lastTime = performance.now();
     let tickAcc = 0;
 
@@ -485,223 +693,349 @@
     }
 
     function updateLogic(dt) {
-        // Night Clock System (360 real seconds = 6 hours)
         state.time += dt;
         const hour = Math.floor(state.time / 60);
         document.getElementById('hud-clock').innerText = `TIME: ${hour === 0 ? 12 : hour} AM`;
         if (state.time >= 360) triggerWin();
 
-        // Power Consumption Calculations
+        // Music Box Drain & Wind Logic
+        if (state.isWinding && state.monitorActive && state.currentCam === 'CAM04') {
+            state.musicBox = Math.min(100, state.musicBox + 22 * dt);
+            playBeep(600 + Math.random() * 100, 'triangle', 0.05);
+        } else {
+            state.musicBox = Math.max(0, state.musicBox - 2.8 * dt);
+        }
+        musicBoxFill.style.width = `${state.musicBox}%`;
+
+        if (state.musicBox <= 0) {
+            animatronics.vesper.escaped = true;
+        }
+
+        // Vesper Attack Logic
+        if (animatronics.vesper.escaped) {
+            animatronics.vesper.killTimer += dt;
+            if (animatronics.vesper.killTimer >= 7.0) {
+                triggerJumpscare('Vesper the Marionette');
+            }
+        }
+
+        // Power Drain Logic
         if (!state.blackout) {
-            let usageRate = 0.1; // Base power consumption
-            if (state.shutterClosed) usageRate += 0.4;
-            if (state.ventSealHeld) usageRate += 0.3;
-            if (state.monitorActive) usageRate += 0.2;
-            if (state.gate1Diverted || state.gate2Diverted) usageRate += 0.1;
+            let usageRate = 0.1;
+            if (state.leftDoor) usageRate += 0.35;
+            if (state.rightDoor) usageRate += 0.35;
+            if (state.leftLight) usageRate += 0.15;
+            if (state.rightLight) usageRate += 0.15;
+            if (state.monitorActive) usageRate += 0.25;
+            if (state.sealedDucts.A || state.sealedDucts.B || state.sealedDucts.C) usageRate += 0.2;
 
             state.power -= usageRate * dt;
             document.getElementById('hud-power').innerText = `POWER: ${state.power.toFixed(1)}%`;
-            document.getElementById('hud-usage').innerText = `USAGE: ${usageRate > 0.5 ? 'CRITICAL' : usageRate > 0.2 ? 'MED' : 'LOW'}`;
+            document.getElementById('hud-usage').innerText = `USAGE: ${usageRate > 0.7 ? 'CRITICAL' : usageRate > 0.35 ? 'MED' : 'LOW'}`;
 
             if (state.power <= 0) triggerBlackout();
         }
 
-        // AI Tick Loop Trigger
+        // AI Tick Logic
         tickAcc += dt;
         if (tickAcc >= 1.0) {
             tickAcc = 0;
             aiTick();
         }
 
-        // Animatronic Threat Logic Checks
-        // 1. Jolly (Front Window)
-        if (animatronics.jolly.loc === 'OFFICE_FRONT') {
-            if (state.shutterClosed) {
-                animatronics.jolly.loc = 'CAM06';
-                animatronics.jolly.killTimer = 0;
+        // Threat Resolution: Clara (Chica) at Left Door
+        if (animatronics.clara.loc === 'OFFICE_LEFT') {
+            if (state.leftDoor) {
+                animatronics.clara.loc = 'CAM06';
+                animatronics.clara.killTimer = 0;
             } else {
-                animatronics.jolly.killTimer += dt;
-                if (animatronics.jolly.killTimer >= 3.5) triggerJumpscare('Jolly the Rabbit');
+                animatronics.clara.killTimer += dt;
+                if (animatronics.clara.killTimer >= 3.5) triggerJumpscare('Clara the Chicken');
             }
         }
 
-        // 2. Junior (Right Door)
+        // Threat Resolution: Junior (Bonnie) at Right Door
         if (animatronics.junior.loc === 'OFFICE_RIGHT') {
-            animatronics.junior.killTimer += dt;
-            if (animatronics.junior.killTimer >= 4.0) triggerJumpscare('Junior the Bear');
-        }
-
-        // 3. Jingle (Left Vent)
-        if (animatronics.jingle.loc === 'OFFICE_LEFT_VENT') {
-            if (state.ventSealHeld) {
-                state.ventHoldTimer += dt;
-                if (state.ventHoldTimer >= 3.0) {
-                    animatronics.jingle.loc = 'CAM07';
-                    animatronics.jingle.killTimer = 0;
-                    state.ventHoldTimer = 0;
-                }
+            if (state.rightDoor) {
+                animatronics.junior.loc = 'CAM06';
+                animatronics.junior.killTimer = 0;
             } else {
-                state.ventHoldTimer = Math.max(0, state.ventHoldTimer - dt);
+                animatronics.junior.killTimer += dt;
+                if (animatronics.junior.killTimer >= 3.5) triggerJumpscare('Junior the Rabbit');
             }
         }
 
-        // 4. Shadow Junior Hallucination (CAM 04 Trigger)
-        if (state.monitorActive && state.currentCam === 'CAM04' && !state.shadowActive) {
-            if (Math.random() < 0.05 * dt) {
-                state.shadowActive = true;
-                shadowOverlay.style.display = 'block';
-                state.shadowTimer = 0;
-            }
+        // Threat Resolution: Jolly in Front Vent
+        if (animatronics.jolly.loc === 'OFFICE_FRONT_VENT') {
+            animatronics.jolly.killTimer += dt;
+            if (animatronics.jolly.killTimer >= 3.0) triggerJumpscare('Jolly (Vent Crawler)');
         }
 
-        if (state.shadowActive) {
-            state.shadowTimer += dt;
-            if (!state.monitorActive) { // Flip down monitor to clear
-                state.shadowActive = false;
-                shadowOverlay.style.display = 'none';
-            } else if (state.shadowTimer >= 1.5) {
-                state.power = Math.max(0, state.power - 15.0);
-                state.shadowActive = false;
-                shadowOverlay.style.display = 'none';
-                playBeep(80, 'sawtooth', 0.5);
-            }
+        updateRadarPosition();
+    }
+
+    function updateRadarPosition() {
+        const loc = animatronics.jolly.loc;
+        if (loc.startsWith('DUCT_') || loc === 'CAM08') {
+            radarJolly.style.display = 'block';
+            if (loc === 'CAM08') { radarJolly.style.top = '42px'; radarJolly.style.left = '200px'; }
+            else if (loc === 'DUCT_A') { radarJolly.style.top = '42px'; radarJolly.style.left = '400px'; }
+            else if (loc === 'DUCT_B') { radarJolly.style.top = '42px'; radarJolly.style.left = '630px'; }
+            else if (loc === 'DUCT_C') { radarJolly.style.top = '240px'; radarJolly.style.left = '630px'; }
+        } else {
+            radarJolly.style.display = 'none';
         }
     }
 
     function aiTick() {
         if (state.blackout) return;
 
-        // Junior Pathing Loop (10s)
+        // Junior (Right Door) Movement
         animatronics.junior.timer++;
-        if (animatronics.junior.timer >= 10) {
+        if (animatronics.junior.timer >= 7) {
             animatronics.junior.timer = 0;
             if (animatronics.junior.loc === 'CAM06') animatronics.junior.loc = 'CAM01';
             else if (animatronics.junior.loc === 'CAM01') animatronics.junior.loc = 'OFFICE_RIGHT';
         }
 
-        // Jolly Pathing Loop (8s)
-        animatronics.jolly.timer++;
-        if (animatronics.jolly.timer >= 8) {
-            animatronics.jolly.timer = 0;
-            if (animatronics.jolly.loc === 'CAM06') animatronics.jolly.loc = 'CAM03';
-            else if (animatronics.jolly.loc === 'CAM03') animatronics.jolly.loc = 'CAM02';
-            else if (animatronics.jolly.loc === 'CAM02') animatronics.jolly.loc = 'OFFICE_FRONT';
+        // Clara (Left Door) Movement
+        animatronics.clara.timer++;
+        if (animatronics.clara.timer >= 8) {
+            animatronics.clara.timer = 0;
+            if (animatronics.clara.loc === 'CAM06') animatronics.clara.loc = 'CAM02';
+            else if (animatronics.clara.loc === 'CAM02') animatronics.clara.loc = 'OFFICE_LEFT';
         }
 
-        // Jingle Pathing Loop (12s)
-        animatronics.jingle.timer++;
-        if (animatronics.jingle.timer >= 12) {
-            animatronics.jingle.timer = 0;
-            if (animatronics.jingle.loc === 'CAM07') animatronics.jingle.loc = 'CAM05';
-            else if (animatronics.jingle.loc === 'CAM05') animatronics.jingle.loc = 'OFFICE_LEFT_VENT';
+        // Jolly (Duct System -> Front Vent) Movement
+        animatronics.jolly.timer++;
+        if (animatronics.jolly.timer >= 6) {
+            animatronics.jolly.timer = 0;
+            const pos = animatronics.jolly.loc;
+
+            if (pos === 'CAM07') animatronics.jolly.loc = 'CAM08';
+            else if (pos === 'CAM08') {
+                if (!state.sealedDucts.A) animatronics.jolly.loc = 'DUCT_A';
+                else animatronics.jolly.loc = 'CAM07';
+            }
+            else if (pos === 'DUCT_A') {
+                if (!state.sealedDucts.B) animatronics.jolly.loc = 'DUCT_B';
+                else animatronics.jolly.loc = 'CAM07';
+            }
+            else if (pos === 'DUCT_B') {
+                if (!state.sealedDucts.C) animatronics.jolly.loc = 'DUCT_C';
+                else animatronics.jolly.loc = 'CAM07';
+            }
+            else if (pos === 'DUCT_C') {
+                animatronics.jolly.loc = 'OFFICE_FRONT_VENT';
+            }
         }
     }
 
+    // 2.5D OFFICE CANVAS RENDERER WITH TWO DOORS AND OVERHEAD VENT
     function renderOffice() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
 
-        // Render Base Office Color
-        ctx.fillStyle = state.blackout ? '#020202' : '#12121c';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const isDim = state.blackout;
 
-        // Front Window Spatial Setup
-        const winW = canvas.width * 0.42;
-        const winH = canvas.height * 0.38;
-        const winX = (canvas.width - winW) / 2;
-        const winY = canvas.height * 0.15;
+        // Background Wall
+        const wallGrad = ctx.createLinearGradient(0, 0, 0, h * 0.72);
+        wallGrad.addColorStop(0, isDim ? '#020304' : '#090d14');
+        wallGrad.addColorStop(1, isDim ? '#05070a' : '#121724');
+        ctx.fillStyle = wallGrad;
+        ctx.fillRect(0, 0, w, h * 0.72);
 
-        // Window Background & Frame
-        ctx.fillStyle = '#050a05';
-        ctx.fillRect(winX, winY, winW, winH);
-        ctx.strokeStyle = '#252525';
-        ctx.lineWidth = 8;
-        ctx.strokeRect(winX, winY, winW, winH);
+        // Floor Perspective
+        const floorY = h * 0.72;
+        const floorGrad = ctx.createLinearGradient(0, floorY, 0, h);
+        floorGrad.addColorStop(0, isDim ? '#050505' : '#141418');
+        floorGrad.addColorStop(1, isDim ? '#000000' : '#060609');
+        ctx.fillStyle = floorGrad;
+        ctx.fillRect(0, floorY, w, h - floorY);
 
-        // Jolly at Front Observation Window
-        if (animatronics.jolly.loc === 'OFFICE_FRONT' && !state.shutterClosed && !state.blackout) {
-            ctx.fillStyle = '#44aa44'; // Lime Green body
-            ctx.fillRect(winX + winW / 2 - 40, winY + winH - 130, 80, 130);
-            ctx.fillStyle = '#ff00ff'; // Neon Magenta eyes
-            ctx.fillRect(winX + winW / 2 - 25, winY + winH - 110, 14, 14);
-            ctx.fillRect(winX + winW / 2 + 11, winY + winH - 110, 14, 14);
+        ctx.strokeStyle = isDim ? 'rgba(20, 20, 30, 0.3)' : 'rgba(0, 255, 170, 0.12)';
+        ctx.lineWidth = 1;
+        for (let x = -w; x < w * 2; x += 80) {
+            ctx.beginPath();
+            ctx.moveTo(x, floorY);
+            ctx.lineTo((x - w / 2) * 2.5 + w / 2, h);
+            ctx.stroke();
         }
 
-        // Heavy Steel Shutter Component
-        if (state.shutterClosed) {
-            ctx.fillStyle = '#22222b';
-            ctx.fillRect(winX, winY, winW, winH);
-            ctx.fillStyle = '#111';
-            for (let i = 0; i < winH; i += 22) {
-                ctx.fillRect(winX, winY + i, winW, 3);
+        // CENTER OVERHEAD VENT
+        const ventW = w * 0.28;
+        const ventH = h * 0.22;
+        const ventX = (w - ventW) / 2;
+        const ventY = h * 0.12;
+
+        ctx.fillStyle = '#030507';
+        ctx.fillRect(ventX, ventY, ventW, ventH);
+        ctx.strokeStyle = '#1a222a';
+        ctx.lineWidth = 8;
+        ctx.strokeRect(ventX - 4, ventY - 4, ventW + 8, ventH + 8);
+
+        // Jolly inside Front Vent
+        if (animatronics.jolly.loc === 'OFFICE_FRONT_VENT' && !state.blackout) {
+            const jx = ventX + ventW / 2;
+            const jy = ventY + ventH / 2 + 10;
+
+            ctx.fillStyle = '#1e3b22';
+            ctx.beginPath();
+            ctx.arc(jx, jy, 42, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Creepy Glowing Eyes
+            ctx.fillStyle = '#ff0055';
+            ctx.shadowColor = '#ff0055';
+            ctx.shadowBlur = 12;
+            ctx.beginPath();
+            ctx.arc(jx - 16, jy - 6, 8, 0, Math.PI * 2);
+            ctx.arc(jx + 16, jy - 6, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        // LEFT DOORWAY
+        const leftDoorW = w * 0.15;
+        const leftDoorH = h * 0.54;
+        const leftDoorX = w * 0.04;
+        const leftDoorY = h * 0.18;
+
+        ctx.fillStyle = '#020304';
+        ctx.fillRect(leftDoorX, leftDoorY, leftDoorW, leftDoorH);
+
+        // Left Door Light Action & Clara Visual
+        if (state.leftLight && !state.blackout) {
+            const lFlash = ctx.createRadialGradient(leftDoorX + leftDoorW/2, leftDoorY + leftDoorH/2, 10, leftDoorX + leftDoorW/2, leftDoorY + leftDoorH/2, leftDoorW * 2);
+            lFlash.addColorStop(0, 'rgba(255, 255, 200, 0.9)');
+            lFlash.addColorStop(1, 'rgba(255, 255, 200, 0)');
+            ctx.fillStyle = lFlash;
+            ctx.fillRect(leftDoorX - 20, leftDoorY - 20, leftDoorW + 40, leftDoorH + 40);
+
+            if (animatronics.clara.loc === 'OFFICE_LEFT') {
+                const cx = leftDoorX + leftDoorW / 2;
+                const cy = leftDoorY + leftDoorH;
+
+                ctx.fillStyle = '#554411'; // Clara (Chica role)
+                ctx.fillRect(cx - 35, cy - 200, 70, 200);
+
+                ctx.fillStyle = '#ffaa00';
+                ctx.shadowColor = '#ffaa00';
+                ctx.shadowBlur = 10;
+                ctx.fillRect(cx - 16, cy - 170, 8, 8);
+                ctx.fillRect(cx + 8, cy - 170, 8, 8);
+                ctx.shadowBlur = 0;
             }
         }
 
-        // Left Maintenance Vent
-        const ventX = 40, ventY = canvas.height * 0.4, ventS = 130;
-        ctx.fillStyle = state.ventSealHeld ? '#00aaaa' : '#080808';
-        ctx.fillRect(ventX, ventY, ventS, ventS);
-        ctx.strokeStyle = '#1e3333';
-        ctx.lineWidth = 6;
-        ctx.strokeRect(ventX, ventY, ventS, ventS);
-
-        // Jingle at Left Vent
-        if (animatronics.jingle.loc === 'OFFICE_LEFT_VENT' && !state.ventSealHeld && !state.blackout) {
-            ctx.fillStyle = '#883311'; // Matted Rust-Red Fur
-            ctx.fillRect(ventX + 30, ventY + 40, 70, 70);
-            ctx.fillStyle = '#ffff00'; // Yellow center eyes
-            ctx.fillRect(ventX + 48, ventY + 58, 6, 6);
-            ctx.fillRect(ventX + 76, ventY + 58, 6, 6);
+        // Left Door Shut Visual
+        if (state.leftDoor) {
+            ctx.fillStyle = '#1a1e26';
+            ctx.fillRect(leftDoorX, leftDoorY, leftDoorW, leftDoorH);
+            ctx.fillStyle = '#0d1015';
+            for (let i = 0; i < leftDoorH; i += 20) {
+                ctx.fillRect(leftDoorX, leftDoorY + i, leftDoorW, 4);
+            }
         }
+        ctx.strokeStyle = '#161a22';
+        ctx.lineWidth = 10;
+        ctx.strokeRect(leftDoorX - 5, leftDoorY - 5, leftDoorW + 10, leftDoorH + 10);
 
-        // Right Entryway Door
-        const doorX = canvas.width - 170, doorY = canvas.height * 0.28, doorW = 130, doorH = canvas.height * 0.55;
-        ctx.fillStyle = '#050505';
-        ctx.fillRect(doorX, doorY, doorW, doorH);
+        // RIGHT DOORWAY
+        const rightDoorW = w * 0.15;
+        const rightDoorH = h * 0.54;
+        const rightDoorX = w - rightDoorW - w * 0.04;
+        const rightDoorY = h * 0.18;
 
-        // Flash Beacon Visual Beam & Junior Detection
-        if (state.flashActive) {
-            ctx.fillStyle = 'rgba(255, 255, 210, 0.85)';
-            ctx.fillRect(doorX - 120, doorY - 40, doorW + 240, doorH + 80);
+        ctx.fillStyle = '#020304';
+        ctx.fillRect(rightDoorX, rightDoorY, rightDoorW, rightDoorH);
+
+        // Right Door Light Action & Junior Visual
+        if (state.rightLight && !state.blackout) {
+            const rFlash = ctx.createRadialGradient(rightDoorX + rightDoorW/2, rightDoorY + rightDoorH/2, 10, rightDoorX + rightDoorW/2, rightDoorY + rightDoorH/2, rightDoorW * 2);
+            rFlash.addColorStop(0, 'rgba(255, 255, 200, 0.9)');
+            rFlash.addColorStop(1, 'rgba(255, 255, 200, 0)');
+            ctx.fillStyle = rFlash;
+            ctx.fillRect(rightDoorX - 20, rightDoorY - 20, rightDoorW + 40, rightDoorH + 40);
 
             if (animatronics.junior.loc === 'OFFICE_RIGHT') {
-                ctx.fillStyle = '#5c3511'; // Glossy Brown Bear
-                ctx.fillRect(doorX + 20, doorY + 60, 90, 170);
-                ctx.fillStyle = '#00ffff'; // Glowing Neon-Blue eyes
-                ctx.fillRect(doorX + 35, doorY + 85, 12, 12);
-                ctx.fillRect(doorX + 78, doorY + 85, 12, 12);
+                const jrx = rightDoorX + rightDoorW / 2;
+                const jry = rightDoorY + rightDoorH;
+
+                ctx.fillStyle = '#222244'; // Junior (Bonnie role)
+                ctx.fillRect(jrx - 35, jry - 200, 70, 200);
+
+                ctx.fillStyle = '#00f3ff';
+                ctx.shadowColor = '#00f3ff';
+                ctx.shadowBlur = 10;
+                ctx.fillRect(jrx - 16, jry - 170, 8, 8);
+                ctx.fillRect(jrx + 8, jry - 170, 8, 8);
+                ctx.shadowBlur = 0;
             }
         }
+
+        // Right Door Shut Visual
+        if (state.rightDoor) {
+            ctx.fillStyle = '#1a1e26';
+            ctx.fillRect(rightDoorX, rightDoorY, rightDoorW, rightDoorH);
+            ctx.fillStyle = '#0d1015';
+            for (let i = 0; i < rightDoorH; i += 20) {
+                ctx.fillRect(rightDoorX, rightDoorY + i, rightDoorW, 4);
+            }
+        }
+        ctx.strokeStyle = '#161a22';
+        ctx.lineWidth = 10;
+        ctx.strokeRect(rightDoorX - 5, rightDoorY - 5, rightDoorW + 10, rightDoorH + 10);
+
+        // Office Desk Foreground
+        const deskY = h * 0.64;
+        const deskGrad = ctx.createLinearGradient(0, deskY, 0, h);
+        deskGrad.addColorStop(0, isDim ? '#090c10' : '#1c222e');
+        deskGrad.addColorStop(1, isDim ? '#020304' : '#080a0f');
+        ctx.fillStyle = deskGrad;
+
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        ctx.lineTo(0, deskY + 40);
+        ctx.lineTo(w * 0.12, deskY);
+        ctx.lineTo(w * 0.88, deskY);
+        ctx.lineTo(w, deskY + 40);
+        ctx.lineTo(w, h);
+        ctx.fill();
     }
 
     function triggerBlackout() {
         state.blackout = true;
-        state.shutterClosed = false;
+        state.leftDoor = false;
+        state.rightDoor = false;
+        state.leftLight = false;
+        state.rightLight = false;
         state.monitorActive = false;
-        monitorOverlay.style.display = 'none';
-        btnShutter.classList.remove('active');
-        btnMonitor.classList.remove('active');
-        playBeep(50, 'sawtooth', 1.0);
+        monitorOverlay.classList.remove('open');
+        btnLeftDoor.classList.remove('active');
+        btnRightDoor.classList.remove('active');
+        playBeep(45, 'sawtooth', 1.0);
 
-        // Grace timer until Junior blackout jumpscare
         setTimeout(() => {
-            if (!state.gameOver) triggerJumpscare('Junior (Blackout)');
-        }, 15000);
+            if (!state.gameOver) triggerJumpscare('Junior (Power Out)');
+        }, 12000);
     }
 
     function triggerJumpscare(threatName) {
         state.gameOver = true;
-        ctx.fillStyle = '#aa0000';
+        ctx.fillStyle = '#880000';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#000';
-        ctx.font = 'bold 42px monospace';
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 36px monospace';
         ctx.textAlign = 'center';
         ctx.fillText(`GAME OVER - KILLED BY ${threatName.toUpperCase()}`, canvas.width / 2, canvas.height / 2);
-        playBeep(60, 'sawtooth', 2.5);
+        playBeep(55, 'sawtooth', 2.5);
     }
 
     function triggerWin() {
         state.gameOver = true;
-        ctx.fillStyle = '#00aa00';
+        ctx.fillStyle = '#00aa44';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#000';
         ctx.font = 'bold 42px monospace';
@@ -710,7 +1044,6 @@
         playBeep(440, 'sine', 1.5);
     }
 
-    // Launch Loop
     requestAnimationFrame(gameLoop);
 </script>
 </body>
